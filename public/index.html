@@ -29,7 +29,13 @@
     .footer-logo { font-size: 18px; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
     .footer-info { color: #666; font-size: 14px; }
 
-    @media (max-width: 768px) { .hero h1 { font-size: 36px; } .nav-links { display: none; } }
+    @media (max-width: 768px) { 
+      .hero h1 { font-size: 36px; } 
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .nav-links.active { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: #141414; padding: 20px; gap: 15px; border-bottom: 1px solid #2a2a2a; }
+      .mobile-menu-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; display: none; }
+    }
   </style>
 </head>
 <body>
@@ -37,6 +43,7 @@
     <div class="container">
       <nav>
         <a href="/" class="logo">Astatica</a>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</button>
         <ul class="nav-links">
           <li><a href="/" class="active">Home</a></li>
           <li><a href="/works">Works</a></li>
