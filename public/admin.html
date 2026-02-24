@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Astatica</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #0a0a0a; color: #fff; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    
+    header { background: #141414; padding: 20px 0; border-bottom: 1px solid #2a2a2a; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a { color: #888; font-size: 14px; }
+    .nav-links a:hover { color: #fff; }
+    .logout-btn { background: none; border: none; color: #888; cursor: pointer; font-size: 14px; }
+
+    .admin-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    .admin-title { font-size: 32px; font-weight: 300; margin-bottom: 30px; }
+    .section-title { font-size: 20px; margin: 30px 0 15px; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; color: #888; font-size: 14px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: #141414; border: 1px solid #2a2a2a; color: #fff; font-size: 14px; border-radius: 4px; }
+    .form-group textarea { min-height: 100px; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #666; }
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 15px; }
+    .checkbox-group label { display: flex; align-items: center; gap: 6px; color: #888; cursor: pointer; }
+    
+    .btn { display: inline-block; background: #fff; color: #0a0a0a; padding: 12px 24px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: 4px; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid #2a2a2a; }
+    .btn-danger { background: #dc3545; color: #fff; }
+    
+    .works-list { margin-top: 20px; }
+    .work-item { display: flex; justify-content: space-between; align-items: center; background: #141414; padding: 15px; margin-bottom: 10px; border-radius: 4px; }
+    .work-info { display: flex; align-items: center; gap: 15px; }
+    .work-thumb { width: 80px; height: 45px; object-fit: cover; border-radius: 4px; }
+    .work-title { font-size: 16px; }
+    .work-cats { color: #666; font-size: 12px; }
+    
+    .credit-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .credit-row input { flex: 1; padding: 10px; background: #141414; border: 1px solid #2a2a2a; color: #fff; border-radius: 4px; }
+    .add-credit-btn { background: transparent; border: 1px dashed #2a2a2a; color: #888; padding: 10px; width: 100%; cursor: pointer; }
+    .loading { text-align: center; padding: 40px; color: #666; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="/" class="logo">Astatica</a>
+        <ul class="nav-links">
+          <li><a href="/works">Works</a></li>
+          <li><a href="/admin">Admin</a></li>
+          <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <h1 class="admin-title">Admin Panel</h1>
+    
+    <h2 class="section-title">Add New Work</h2>
+    <form id="work-form">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="title" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Categories</label>
+        <div class="checkbox-group" id="categories"></div>
+      </div>
+      
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="description"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>YouTube URL (optional)</label>
+        <input type="url" id="youtubeUrl" placeholder="https://youtube.com/watch?v=...">
+      </div>
+      
+      <div class="form-group">
+        <label>Cover Image URL (optional)</label>
+        <input type="url" id="coverImageUrl" placeholder="https://example.com/image.jpg">
+      </div>
+      
+      <div class="form-group">
+        <label>Or Upload Image</label>
+        <input type="file" id="coverImageFile" accept="image/*">
+      </div>
+      
+      <div class="form-group">
+        <label>Credits</label>
+        <div id="credits"></div>
+        <button type="button" class="add-credit-btn" onclick="addCreditRow()">+ Add Credit</button>
+      </div>
+      
+      <button type="submit" class="btn">Create Work</button>
+    </form>
+    
+    <h2 class="section-title">Existing Works</h2>
+    <div id="works-list" class="works-list"><p class="loading">Loading...</p></div>
+  </div>
+
+  <script>
+    const cats = ['3D', 'VFX', 'Direction', 'Motion Graphics', 'Color Grading', 'Post Production', '2D', 'Production', 'Live Action', 'Interactive'];
+    
+    document.getElementById('categories').innerHTML = cats.map(c => 
+      `<label><input type="checkbox" name="cat" value="${c}"> ${c}</label>`
+    ).join('');
+
+    function addCreditRow() {
+      const div = document.createElement('div');
+      div.className = 'credit-row';
+      div.innerHTML = '<input placeholder="Role"><input placeholder="Name"><button type="button" onclick="this.parentElement.remove()" class="btn btn-secondary" style="padding:8px 12px;">X</button>';
+      document.getElementById('credits').appendChild(div);
+    }
+    addCreditRow();
+
+    async function loadWorks() {
+      const res = await fetch('/api/works');
+      const works = await res.json();
+      document.getElementById('works-list').innerHTML = works.map(w => `
+        <div class="work-item">
+          <div class="work-info">
+            <img src="${w.coverImage || 'https://via.placeholder.com/80x45'}" class="work-thumb">
+            <div>
+              <div class="work-title">${w.title}</div>
+              <div class="work-cats">${(w.categories||[]).join(', ')}</div>
+            </div>
+          </div>
+          <button class="btn btn-danger" onclick="deleteWork('${w._id}')">Delete</button>
+        </div>
+      `).join('') || '<p class="loading">No works</p>';
+    }
+
+    async function deleteWork(id) {
+      if (!confirm('Delete this work?')) return;
+      await fetch('/api/admin/works/' + id, { method: 'DELETE' });
+      loadWorks();
+    }
+
+    document.getElementById('work-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const fd = new FormData();
+      fd.append('title', document.getElementById('title').value);
+      fd.append('description', document.getElementById('description').value);
+      fd.append('youtubeUrl', document.getElementById('youtubeUrl').value);
+      fd.append('coverImageUrl', document.getElementById('coverImageUrl').value);
+      
+      const cats = Array.from(document.querySelectorAll('input[name="cat"]:checked')).map(c => c.value);
+      fd.append('categories', cats.join(','));
+      
+      const file = document.getElementById('coverImageFile').files[0];
+      if (file) fd.append('coverImage', file);
+      
+      const credits = [];
+      document.querySelectorAll('.credit-row').forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0].value && inputs[1].value) credits.push({ role: inputs[0].value, name: inputs[1].value });
+      });
+      fd.append('credits', JSON.stringify(credits));
+
+      const res = await fetch('/api/admin/works', { method: 'POST', body: fd });
+      if (res.ok) {
+        alert('Work created!');
+        document.getElementById('work-form').reset();
+        loadWorks();
+      } else {
+        alert('Error creating work');
+      }
+    };
+
+    async function logout() {
+      await fetch('/api/logout', { method: 'POST' });
+      location.href = '/admin';
+    }
+
+    loadWorks();
+  </script>
+</body>
+</html>

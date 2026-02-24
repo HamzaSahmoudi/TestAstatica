@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astatica - Creative Studio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #0a0a0a; color: #fff; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    
+    header { background: #141414; padding: 20px 0; border-bottom: 1px solid #2a2a2a; position: sticky; top: 0; z-index: 100; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a { color: #888; font-size: 14px; transition: color 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+    .hero { background: #141414; padding: 80px 20px; text-align: center; border-bottom: 1px solid #2a2a2a; }
+    .hero h1 { font-size: 56px; font-weight: 300; letter-spacing: 4px; margin-bottom: 20px; }
+    .hero p { color: #888; font-size: 18px; max-width: 600px; margin: 0 auto; }
+
+    .filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 30px 20px; }
+    .filter-btn { background: transparent; border: 1px solid #2a2a2a; color: #888; padding: 10px 18px; font-size: 12px; cursor: pointer; transition: all 0.3s; text-transform: uppercase; }
+    .filter-btn:hover, .filter-btn.active { background: #fff; color: #0a0a0a; border-color: #fff; }
+
+    .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; padding: 40px 20px; }
+    .work-card { background: #111; border-radius: 4px; overflow: hidden; cursor: pointer; transition: transform 0.3s; }
+    .work-card:hover { transform: translateY(-4px); }
+    .work-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .work-card-content { padding: 20px; }
+    .work-card-title { font-size: 18px; margin-bottom: 10px; }
+    .work-card-categories { display: flex; flex-wrap: wrap; gap: 6px; }
+    .category-tag { background: #1f1f1f; color: #888; padding: 4px 10px; font-size: 10px; text-transform: uppercase; }
+
+    .work-detail { padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
+    .work-detail-cover { width: 100%; max-height: 500px; object-fit: cover; border-radius: 4px; margin-bottom: 30px; }
+    .work-detail-title { font-size: 36px; font-weight: 300; margin-bottom: 15px; }
+    .work-detail-categories { display: flex; gap: 8px; margin-bottom: 25px; }
+    .work-detail-description { color: #aaa; font-size: 16px; line-height: 1.8; margin-bottom: 30px; }
+    .work-detail-video iframe { width: 100%; aspect-ratio: 16/9; border: none; border-radius: 4px; }
+    .work-detail-credits { background: #141414; padding: 25px; border-radius: 4px; max-width: 350px; }
+    .work-detail-credits h3 { font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 15px; letter-spacing: 1px; }
+    .credit-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2a2a2a; }
+    .credit-item:last-child { border: none; }
+    .credit-role { color: #888; }
+
+    footer { background: #141414; padding: 40px 0; text-align: center; margin-top: 60px; border-top: 1px solid #2a2a2a; }
+    .footer-logo { font-size: 18px; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
+    .footer-info { color: #666; font-size: 14px; }
+
+    .admin-container { max-width: 600px; margin: 60px auto; padding: 0 20px; }
+    .admin-title { font-size: 32px; font-weight: 300; margin-bottom: 30px; text-align: center; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; color: #888; font-size: 14px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 12px; background: #141414; border: 1px solid #2a2a2a; color: #fff; font-size: 14px; border-radius: 4px; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #666; }
+    .btn { display: inline-block; background: #fff; color: #0a0a0a; padding: 12px 24px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: 4px; }
+    .btn:hover { background: #ddd; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid #2a2a2a; }
+    .btn-secondary:hover { background: #1a1a1a; }
+    .btn-danger { background: #dc3545; color: #fff; }
+    .error-message { background: #dc3545; color: #fff; padding: 12px; border-radius: 4px; margin-bottom: 15px; }
+    
+    .works-list { margin-top: 30px; }
+    .work-list-item { display: flex; justify-content: space-between; align-items: center; background: #141414; padding: 15px; margin-bottom: 10px; border-radius: 4px; }
+    .work-list-info { display: flex; align-items: center; gap: 15px; }
+    .work-list-thumb { width: 100px; height: 56px; object-fit: cover; border-radius: 4px; }
+    .credit-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .credit-row input { flex: 1; padding: 10px; background: #141414; border: 1px solid #2a2a2a; color: #fff; border-radius: 4px; }
+    .add-credit-btn { background: transparent; border: 1px dashed #2a2a2a; color: #888; padding: 10px; width: 100%; cursor: pointer; }
+    .loading { text-align: center; padding: 40px; color: #666; }
+    @media (max-width: 768px) { .hero h1 { font-size: 32px; } .nav-links { display: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="/" class="logo">Astatica</a>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/works" class="active">Works</a></li>
+          <li><a href="/admin">Admin</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>OUR WORKS</h1>
+      <p>A collection of our creative projects spanning across multiple disciplines and mediums.</p>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="filters" id="filters"></div>
+    <div class="works-grid" id="works-grid"><p class="loading">Loading...</p></div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-logo">Astatica</div>
+      <div class="footer-info">Creative Studio - Brussels, Belgium</div>
+    </div>
+  </footer>
+
+  <script>
+    const categories = ['All', '3D', 'VFX', 'Direction', 'Motion Graphics', 'Color Grading', 'Post Production', '2D', 'Production', 'Live Action', 'Interactive'];
+    let allWorks = [];
+
+    async function fetchWorks() {
+      const res = await fetch('/api/works');
+      allWorks = await res.json();
+      renderWorks(allWorks);
+      renderFilters();
+    }
+
+    function renderFilters() {
+      document.getElementById('filters').innerHTML = categories.map(cat => 
+        `<button class="filter-btn ${cat==='All'?'active':''}" data-cat="${cat}">${cat}</button>`
+      ).join('');
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.onclick = () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const cat = btn.dataset.cat;
+          renderWorks(cat === 'All' ? allWorks : allWorks.filter(w => w.categories?.includes(cat)));
+        };
+      });
+    }
+
+    function renderWorks(works) {
+      document.getElementById('works-grid').innerHTML = works.map(w => `
+        <div class="work-card" onclick="location.href='/work?slug=${w.slug}'">
+          <img src="${w.coverImage || 'https://via.placeholder.com/400x225'}" alt="${w.title}">
+          <div class="work-card-content">
+            <h3 class="work-card-title">${w.title}</h3>
+            <div class="work-card-categories">${(w.categories||[]).map(c=>`<span class="category-tag">${c}</span>`).join('')}</div>
+          </div>
+        </div>
+      `).join('') || '<p class="loading">No works found</p>';
+    }
+
+    fetchWorks();
+  </script>
+</body>
+</html>
