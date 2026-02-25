@@ -1,94 +1,235 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Work Detail - Astatica</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; background: #0a0a0a; color: #fff; line-height: 1.6; }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
-    
-    header { background: #141414; padding: 20px 0; border-bottom: 1px solid #2a2a2a; position: sticky; top: 0; z-index: 100; }
-    nav { display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-    .nav-links { display: flex; gap: 30px; list-style: none; }
-    .nav-links a { color: #888; font-size: 14px; transition: color 0.3s; }
-    .nav-links a:hover { color: #fff; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work Detail - Astatica</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: #0a0a0a;
+        color: #fff;
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
 
-    .work-detail { padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
-    .work-detail-cover { width: 100%; max-height: 500px; object-fit: cover; border-radius: 4px; margin-bottom: 30px; }
-    .work-detail-title { font-size: 36px; font-weight: 300; margin-bottom: 15px; }
-    .work-detail-categories { display: flex; gap: 8px; margin-bottom: 25px; }
-    .category-tag { background: #1f1f1f; color: #888; padding: 4px 10px; font-size: 10px; text-transform: uppercase; }
-    .work-detail-description { color: #aaa; font-size: 16px; line-height: 1.8; margin-bottom: 30px; }
-    .work-detail-video iframe { width: 100%; aspect-ratio: 16/9; border: none; border-radius: 4px; }
-    .work-detail-credits { background: #141414; padding: 25px; border-radius: 4px; max-width: 350px; }
-    .work-detail-credits h3 { font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 15px; letter-spacing: 1px; }
-    .credit-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2a2a2a; }
-    .credit-item:last-child { border: none; }
-    .credit-role { color: #888; }
+      header {
+        background: #141414;
+        padding: 20px 0;
+        border-bottom: 1px solid #2a2a2a;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+      .nav-links a {
+        color: #888;
+        font-size: 14px;
+        transition: color 0.3s;
+      }
+      .nav-links a:hover {
+        color: #fff;
+      }
 
-    footer { background: #141414; padding: 40px 0; text-align: center; margin-top: 60px; border-top: 1px solid #2a2a2a; }
-    .footer-logo { font-size: 18px; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
-    .footer-info { color: #666; font-size: 14px; }
-    .loading { text-align: center; padding: 40px; color: #666; }
-    .mobile-menu-btn { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-    @media (max-width: 768px) { 
-      .nav-links { display: none; }
-      .mobile-menu-btn { display: block; }
-      .nav-links.active { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: #141414; padding: 20px; gap: 15px; border-bottom: 1px solid #2a2a2a; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="container">
-      <nav>
-        <a href="/" class="logo">Astatica</a>
-        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</button>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/works">Works</a></li>
-          <li><a href="/admin">Admin</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+      .work-detail {
+        padding: 40px 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .work-detail-cover {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 30px;
+      }
+      .work-detail-title {
+        font-size: 36px;
+        font-weight: 300;
+        margin-bottom: 15px;
+      }
+      .work-detail-categories {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 25px;
+      }
+      .category-tag {
+        background: #1f1f1f;
+        color: #888;
+        padding: 4px 10px;
+        font-size: 10px;
+        text-transform: uppercase;
+      }
+      .work-detail-description {
+        color: #aaa;
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 30px;
+      }
+      .work-detail-video iframe {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border: none;
+        border-radius: 4px;
+      }
+      .work-detail-credits {
+        background: #141414;
+        padding: 25px;
+        border-radius: 4px;
+        max-width: 350px;
+      }
+      .work-detail-credits h3 {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #888;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+      }
+      .credit-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #2a2a2a;
+      }
+      .credit-item:last-child {
+        border: none;
+      }
+      .credit-role {
+        color: #888;
+      }
 
-  <section class="work-detail" id="work-detail">
-    <p class="loading">Loading...</p>
-  </section>
+      footer {
+        background: #141414;
+        padding: 40px 0;
+        text-align: center;
+        margin-top: 60px;
+        border-top: 1px solid #2a2a2a;
+      }
+      .footer-logo {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+      }
+      .footer-info {
+        color: #666;
+        font-size: 14px;
+      }
+      .loading {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+      }
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .mobile-menu-btn {
+          display: block;
+        }
+        .nav-links.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: #141414;
+          padding: 20px;
+          gap: 15px;
+          border-bottom: 1px solid #2a2a2a;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="/" class="logo">Astatica</a>
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/works">Works</a></li>
+            <li><a href="/admin">Admin</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-  <footer>
-    <div class="container">
-      <div class="footer-logo">Astatica</div>
-      <div class="footer-info">Creative Studio - Brussels, Belgium</div>
-    </div>
-  </footer>
+    <section class="work-detail" id="work-detail">
+      <p class="loading">Loading...</p>
+    </section>
 
-  <script>
-    async function loadWork() {
-      const slug = new URLSearchParams(location.search).get('slug');
-      if (!slug) return document.getElementById('work-detail').innerHTML = '<p class="loading">No work specified</p>';
-      
-      const res = await fetch('/api/works/' + slug);
-      if (!res.ok) return document.getElementById('work-detail').innerHTML = '<p class="loading">Work not found</p>';
-      
-      const w = await res.json();
-      const youtubeId = w.youtubeUrl?.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/)?.[1];
-      
-      document.getElementById('work-detail').innerHTML = `
-        <img src="${w.coverImage || 'https://via.placeholder.com/1000x563'}" alt="${w.title}" class="work-detail-cover">
+    <footer>
+      <div class="container">
+        <div class="footer-logo">Astatica</div>
+        <div class="footer-info">Creative Studio - Brussels, Belgium</div>
+      </div>
+    </footer>
+
+    <script>
+      async function loadWork() {
+        const slug = new URLSearchParams(location.search).get("slug");
+        if (!slug)
+          return (document.getElementById("work-detail").innerHTML =
+            '<p class="loading">No work specified</p>');
+
+        const res = await fetch("/api/works/" + slug);
+        if (!res.ok)
+          return (document.getElementById("work-detail").innerHTML =
+            '<p class="loading">Work not found</p>');
+
+        const w = await res.json();
+        const youtubeId = w.youtubeUrl?.match(
+          /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/,
+        )?.[1];
+
+        document.getElementById("work-detail").innerHTML = `
+        <img src="${w.coverImage || "https://via.placeholder.com/1000x563"}" alt="${w.title}" class="work-detail-cover">
         <h1 class="work-detail-title">${w.title}</h1>
-        <div class="work-detail-categories">${(w.categories||[]).map(c=>`<span class="category-tag">${c}</span>`).join('')}</div>
-        <p class="work-detail-description">${w.description || ''}</p>
-        ${youtubeId ? `<div class="work-detail-video"><iframe src="https://www.youtube.com/embed/${youtubeId}" allowfullscreen></iframe></div>` : ''}
-        ${w.credits?.length ? `<div class="work-detail-credits"><h3>Credits</h3>${w.credits.map(c=>`<div class="credit-item"><span class="credit-role">${c.role}</span><span>${c.name}</span></div>`).join('')}</div>` : ''}
+        <div class="work-detail-categories">${(w.categories || []).map((c) => `<span class="category-tag">${c}</span>`).join("")}</div>
+        <p class="work-detail-description">${w.description || ""}</p>
+        ${youtubeId ? `<div class="work-detail-video"><iframe src="https://www.youtube.com/embed/${youtubeId}" allowfullscreen></iframe></div>` : ""}
+        ${w.credits?.length ? `<div class="work-detail-credits"><h3>Credits</h3>${w.credits.map((c) => `<div class="credit-item"><span class="credit-role">${c.role}</span><span>${c.name}</span></div>`).join("")}</div>` : ""}
       `;
-    }
-    loadWork();
-  </script>
-</body>
+      }
+      loadWork();
+    </script>
+  </body>
 </html>
